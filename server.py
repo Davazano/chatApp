@@ -1,6 +1,8 @@
 import socket
 import keyboard
 import time
+import pickle
+
 
 # Constants
 HEADER_SIZE = 20
@@ -38,12 +40,3 @@ while run_program:
 
     # send information to the client socket
     clientsocket.send(bytes(msg, "utf-8"))
-
-    while True:
-        time.sleep(3)
-        # Form a message with the fixed length header
-        msg = f"The time is {time.time()}!"
-        msg = f'{len(msg):<{HEADER_SIZE}}' + msg
-
-        # send information to the client socket
-        clientsocket.send(bytes(msg, "utf-8"))
