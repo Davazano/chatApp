@@ -1,0 +1,12 @@
+# run pip environment shell
+pipenv shell
+
+# install extra packages
+pip install -r requirements.txt
+
+# or
+# install keyboard package
+pip install keyboard
+
+# Exit pip environment shell
+exit
