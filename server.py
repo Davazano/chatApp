@@ -11,8 +11,13 @@ sock.listen(5)
 run_program = True
 # continue to run until condition changes
 while run_program:
+    # print key pressed
     print(keyboard.read_key())
+
+    # check if keypressed is 'Q'
     if keyboard.read_key() == "Q":
+        # change state run_program to False
         run_program = False
-        print("Exiting Chat App")
+        # print message showing that chat app is closed
+        print("Closed Chat App")
         break
