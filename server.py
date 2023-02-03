@@ -21,3 +21,11 @@ while run_program:
         # print message showing that chat app is closed
         print("Closed Chat App")
         break
+    
+    # accept connections, store clientsocket, and ip address
+    clientsocket, address = sock.accept()
+
+    print(f"Established connection with {address}!")
+
+    # send information to the client socket
+    clientsocket.send(bytes("Welcome to the chatApp server!", "utf-8"))
