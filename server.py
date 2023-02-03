@@ -11,6 +11,7 @@ sock.listen(5)
 run_program = True
 # continue to run until condition changes
 while run_program:
+    print("waiting for client")
     # print key pressed
     print(keyboard.read_key())
 
@@ -29,3 +30,6 @@ while run_program:
 
     # send information to the client socket
     clientsocket.send(bytes("Welcome to the chatApp server!", "utf-8"))
+
+    # close client socket
+    clientsocket.close()
