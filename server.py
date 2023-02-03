@@ -35,8 +35,10 @@ while run_program:
     print(f"Established connection with {address}!")
 
     # Form a message with the fixed length header
-    msg = "Welcome to the chatApp server!"
-    msg = f'{len(msg):<{HEADER_SIZE}}' + msg
+    d = {1: "Hey",  2: "There"}
+    msg = pickle.dumps(d)
+
+    msg = bytes(f'{len(msg):<{HEADER_SIZE}}', "utf-8") + msg
 
     # send information to the client socket
-    clientsocket.send(bytes(msg, "utf-8"))
+    clientsocket.send(msg)
