@@ -1,4 +1,5 @@
 import socket
+import pickle
 
 # Constants
 HEADER_SIZE = 20
@@ -10,7 +11,7 @@ sock.connect((socket.gethostname(), 1233))
 
 while True:
 
-    full_msg = ''
+    full_msg = b''
     new_msg = True
     while True:
         # store buffered message
@@ -20,14 +21,18 @@ while True:
             msglen = int(msg[:HEADER_SIZE])
             new_msg = False
         
-        full_msg += msg.decode("utf-8")
+        full_msg += msg
 
         # Check length of message
         if len(full_msg)-HEADER_SIZE == msglen:
             print("full msg recvd")
             # print message without header
             print(full_msg[HEADER_SIZE:])
+
+            d = pickle.loads(full_msg[HEADER_SIZE:])
+            print(d)
+
             new_msg = True
-            full_msg = ''
+            full_msg = b''
 
     print(full_msg)
