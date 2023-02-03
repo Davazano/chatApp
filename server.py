@@ -1,5 +1,9 @@
 import socket
 import keyboard
+import time
+
+# Constants
+HEADER_SIZE = 20
 
 # instantiate socket, socket.AF_INET for ipV4, SOCK_STREAM for TCP
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -28,8 +32,18 @@ while run_program:
 
     print(f"Established connection with {address}!")
 
-    # send information to the client socket
-    clientsocket.send(bytes("Welcome to the chatApp server!", "utf-8"))
+    # Form a message with the fixed length header
+    msg = "Welcome to the chatApp server!"
+    msg = f'{len(msg):<{HEADER_SIZE}}' + msg
 
-    # close client socket
-    clientsocket.close()
+    # send information to the client socket
+    clientsocket.send(bytes(msg, "utf-8"))
+
+    while True:
+        time.sleep(3)
+        # Form a message with the fixed length header
+        msg = f"The time is {time.time()}!"
+        msg = f'{len(msg):<{HEADER_SIZE}}' + msg
+
+        # send information to the client socket
+        clientsocket.send(bytes(msg, "utf-8"))
