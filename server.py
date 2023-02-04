@@ -33,6 +33,7 @@ def receive_message(client_socket):
     except:
         return False
 
+
 while True:
     
     read_sockets, _, exception_sockets = select.select(sockets_list, [], sockets_list)
@@ -65,3 +66,10 @@ while True:
             
             user = clients[notified_socket]
             print(f"Recieved message from {user['data'].decode('utf-8')}: {message['data'].decode('utf-8')}")
+
+            for client_socket in clients:
+                # send to other clients other than the client that sent the message
+                if client_socket != notified_socket:
+                    client_socket.send(user["header"] + user["data"] + message['header'] + message['data'])
+    
+    
