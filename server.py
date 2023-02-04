@@ -33,3 +33,35 @@ def receive_message(client_socket):
     except:
         return False
 
+while True:
+    
+    read_sockets, _, exception_sockets = select.select(sockets_list, [], sockets_list)
+
+    for notified_socket in read_sockets:
+        # if someone just connected
+        if notified_socket == server_socket:
+            # accept connection
+            client_socket, client_address = server_socket.accept()
+
+            user = receive_message(client_socket)
+            # someone probably disconected
+            if user is False:
+                continue
+            
+            sockets_list.append(client_socket)
+
+            clients[client_socket] = user
+
+            print(f"Accepted new connection from {client_address[0]}:{client_address[1]} username:{user['data'].decode('utf-8')}")
+
+        else:
+            message = receive_message(notified_socket)
+
+            if message is False:
+                print(f"Closed connection from {clients[notified_socket]['data'].decode('utf-8')}")
+                sockets_list.remove(notified_socket)
+                del clients[notified_socket]
+                continue
+            
+            user = clients[notified_socket]
+            print(f"Recieved message from {user['data'].decode('utf-8')}: {message['data'].decode('utf-8')}")
