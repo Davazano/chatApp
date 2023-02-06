@@ -22,3 +22,13 @@ username_header = f"{len(username):<{HEADER_LENGTH}}".encode("utf-8")
 # send username
 client_socket.send(username_header + username)
 
+while True:
+    # Get input from user
+    message = input(f'{my_username} :')
+
+    if message:
+
+        # Encode message to bytes, prepare header and convert to bytes, like for username above, then send
+        message = message.encode("utf-8")
+        message_header = f"{len(message):<{HEADER_LENGTH}}".encode("utf-8")
+        client_socket.send(message_header + message)
