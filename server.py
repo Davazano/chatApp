@@ -18,6 +18,7 @@ server_socket.listen()
 # list of clients
 sockets_list = [server_socket]
 # clients dictionary, key => client's socket, value => data from user
+clients = {}
 
 def receive_message(client_socket):
     try:
