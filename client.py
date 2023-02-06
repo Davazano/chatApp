@@ -32,3 +32,24 @@ while True:
         message = message.encode("utf-8")
         message_header = f"{len(message):<{HEADER_LENGTH}}".encode("utf-8")
         client_socket.send(message_header + message)
+    
+    # Receive messages
+    while True:
+
+        username_header = client_socket.recv(HEADER_LENGTH)
+
+        # If we received no data, server gracefully closed a connection, for example using socket.close() or socket.shutdown(socket.SHUT_RDWR)
+        if not len(username_header):
+            print('Connection closed by the server')
+            sus.exit()
+
+        # get username
+        username_length = int(username_header.decode("utf-8").strip())
+        username = client_socket.recv(username_length).decode("utf-8")
+
+        # get message
+        message_header = client_socket.recv(HEADER_LENGTH)
+        message_length = int(message_header.decode('utf-8').strip())
+        message = client_socket.recv(message_length).decode('utf-8')
+
+        print(f"{username} :{message}")
